@@ -1,0 +1,66 @@
+{
+    "preprocessing": {
+        "upscale": true,
+        "upscale_factor": 2,
+        "auto_rotate": true,
+        "denoise": true,
+        "clahe_clip_limit": 3.0
+    },
+    "extraction": {
+        "multi_pass": true,
+        "confidence_threshold": 60,
+        "use_regions": true,
+        "preferred_ocr_methods": [
+            "uniform_block",
+            "high_confidence",
+            "single_column"
+        ]
+    },
+    "face_processing": {
+        "verification": {
+            "threshold": 0.4,
+            "model": "buffalo_l",
+            "distance_metric": "cosine",
+            "enforce_detection": true,
+            "min_face_size": 30
+        },
+        "extraction": {
+            "min_face_size": [30, 30],
+            "scale_factor": 1.1,
+            "min_neighbors": 5,
+            "padding": 20,
+            "target_size": [112, 112]
+        },
+        "liveness": {
+            "enabled": true,
+            "min_score": 0.7
+        },
+        "quality": {
+            "min_face_quality": 0.5,
+            "min_detection_confidence": 0.8
+        }
+    },
+    "server": {
+        "host": "0.0.0.0",
+        "port": 5000,
+        "debug": false,
+        "max_file_size_mb": 10
+    },
+    "output": {
+        "save_results": true,
+        "save_enhanced_images": true,
+        "save_extracted_faces": true,
+        "results_format": "json"
+    },
+    "tesseract": {
+        "languages": ["eng", "ara"],
+        "timeout": 30
+    },
+    "supported_formats": [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".bmp",
+        ".tiff"
+    ]
+}

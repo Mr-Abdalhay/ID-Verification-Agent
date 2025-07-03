@@ -1,0 +1,102 @@
+{
+    "description": "Tesseract OCR executable paths for different operating systems",
+    "last_updated": "2024-12-15",
+    
+    "windows": {
+      "default": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+      "alternative_paths": [
+        "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+        "C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe",
+        "C:\\Users\\%USERNAME%\\AppData\\Local\\Tesseract-OCR\\tesseract.exe",
+        "C:\\tesseract\\tesseract.exe",
+        "D:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+      ],
+      "download_url": "https://github.com/UB-Mannheim/tesseract/wiki",
+      "installer_url": "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-5.3.1.20230401.exe",
+      "install_instructions": "Download installer and install to default location C:\\Program Files\\Tesseract-OCR\\"
+    },
+    
+    "linux": {
+      "default": "/usr/bin/tesseract",
+      "alternative_paths": [
+        "/usr/bin/tesseract",
+        "/usr/local/bin/tesseract",
+        "/opt/tesseract/bin/tesseract",
+        "/snap/bin/tesseract"
+      ],
+      "install_commands": {
+        "ubuntu": "sudo apt-get install tesseract-ocr tesseract-ocr-ara",
+        "debian": "sudo apt-get install tesseract-ocr tesseract-ocr-ara",
+        "fedora": "sudo dnf install tesseract tesseract-langpack-ara",
+        "centos": "sudo yum install tesseract tesseract-langpack-ara",
+        "arch": "sudo pacman -S tesseract tesseract-data-ara"
+      },
+      "check_installation": "which tesseract"
+    },
+    
+    "darwin": {
+      "default": "/usr/local/bin/tesseract",
+      "alternative_paths": [
+        "/usr/local/bin/tesseract",
+        "/opt/homebrew/bin/tesseract",
+        "/opt/local/bin/tesseract",
+        "/usr/bin/tesseract"
+      ],
+      "install_commands": {
+        "homebrew": "brew install tesseract",
+        "homebrew_languages": "brew install tesseract-lang",
+        "macports": "sudo port install tesseract",
+        "macports_languages": "sudo port install tesseract-ara"
+      },
+      "check_installation": "which tesseract"
+    },
+    
+    "language_data": {
+      "description": "Tesseract language data files",
+      "required": ["eng"],
+      "optional": ["ara", "fra", "spa", "deu"],
+      "download_url": "https://github.com/tesseract-ocr/tessdata",
+      
+      "paths": {
+        "windows": "C:\\Program Files\\Tesseract-OCR\\tessdata\\",
+        "linux": "/usr/share/tesseract-ocr/5/tessdata/",
+        "darwin": "/usr/local/share/tessdata/"
+      }
+    },
+    
+    "version_check": {
+      "command": "tesseract --version",
+      "minimum_version": "4.0.0",
+      "recommended_version": "5.0.0"
+    },
+    
+    "troubleshooting": {
+      "not_found_error": {
+        "error_message": "TesseractNotFoundError",
+        "solutions": [
+          "Install Tesseract OCR for your operating system",
+          "Add Tesseract to system PATH",
+          "Specify full path in configuration",
+          "Check if path contains spaces or special characters"
+        ]
+      },
+      "language_error": {
+        "error_message": "Failed loading language",
+        "solutions": [
+          "Install required language pack",
+          "Download language data files",
+          "Check tessdata directory permissions",
+          "Verify TESSDATA_PREFIX environment variable"
+        ]
+      }
+    },
+    
+    "environment_variables": {
+      "TESSDATA_PREFIX": {
+        "description": "Path to tessdata directory",
+        "windows": "C:\\Program Files\\Tesseract-OCR\\tessdata",
+        "linux": "/usr/share/tesseract-ocr/5/tessdata",
+        "darwin": "/usr/local/share/tessdata"
+      }
+    }
+  }
