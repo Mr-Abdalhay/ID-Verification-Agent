@@ -650,8 +650,8 @@ if not is_valid:
   - Network latency
 
 **For real-time KYC:**
-- ✅ **Acceptable:** For web applications (user waits 5-10 seconds)
-- ⚠️ **Consider:** For mobile apps (show loading indicator)
+- ✅ **Acceptable:** For web applications (user waits 3-5 seconds)
+- ✅ **Consider:** For mobile apps (show loading indicator)
 - ❌ **Not suitable:** For instant verification (< 1 second required)
 
 ---
