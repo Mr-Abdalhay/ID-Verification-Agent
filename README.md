@@ -293,24 +293,6 @@ Shows all security events and access logs
 
 ---
 
-## Training Dataset Collection
-
-Every time you upload a document, the system automatically saves:
-- **Original Image** → `/root/ID-Verification-Agent/dataset/images/`
-- **Extracted Data (JSON)** → `/root/ID-Verification-Agent/dataset/annotations/`
-
-Files are named with matching timestamps:
-- `passport_20250101_120000_123456.jpg`
-- `passport_20250101_120000_123456.json`
-
-**What can you do with this dataset?**
-- Train OCR models (Tesseract, EasyOCR, PaddleOCR)
-- Fine-tune document understanding models (LayoutLM)
-- Improve extraction accuracy
-- Build custom text extraction models
-
----
-
 ## Quick Tips
 
 ✅ **Always login first** - You can't use any service without a token
@@ -319,9 +301,9 @@ Files are named with matching timestamps:
 
 ✅ **Use HTTPS** - The system uses secure encrypted connections
 
-✅ **Save your results** - All extractions are saved to `output/results/`
+✅ **Save results** - Store API responses in your application database
 
-✅ **Monitor logs** - Check `logs/security.log` for issues
+✅ **Handle errors properly** - Implement retry logic for network issues
 
 ---
 
@@ -422,9 +404,9 @@ if id_data['success']:
 
 **Answer:**
 - Rate limiting is configured per IP address
-- Default settings can be found in `config/security_config.json`
 - Rate limit errors return HTTP 429 status code
-- For production, you can request rate limit increases by modifying the config
+- Wait a few seconds and retry if you receive this error
+- Contact support for rate limit increases
 
 ---
 
@@ -476,7 +458,7 @@ if id_data['success']:
 - **Supported formats:** JPG, JPEG, PNG, BMP, TIFF
 - **Minimum resolution:** 800x600 pixels (higher is better)
 - **Recommended resolution:** 1920x1080 or higher
-- **File size limit:** Check security_config.json (default: 10MB)
+- **File size limit:** 10MB maximum
 - **Image quality tips:**
   - Good lighting (no shadows)
   - Clear focus (not blurry)
@@ -595,20 +577,15 @@ db_data = map_to_database(result)
 ### Q9: What happens to uploaded images? (Data Privacy)
 
 **Answer:**
-- **Image storage:** All uploaded images are saved to `/root/ID-Verification-Agent/dataset/images/`
-- **JSON storage:** Extraction results saved to `/root/ID-Verification-Agent/dataset/annotations/`
-- **Result logs:** Saved to `output/results/` with timestamp
+- **Result logs:** Extraction results saved to `output/results/` with timestamp
 - **Security logs:** All API calls logged in `logs/security.log`
+- **Uploaded images:** Processed in memory and not permanently stored by default
 
 **For GDPR/Privacy Compliance:**
-1. **Disable dataset saving:** Modify [src/secure_app.py](src/secure_app.py) and comment out dataset_saver calls
-2. **Auto-delete:** Set up cron job to delete old images:
-   ```bash
-   # Delete images older than 30 days
-   find /root/ID-Verification-Agent/dataset/images/ -mtime +30 -delete
-   ```
-3. **Encryption:** Images stored on disk are not encrypted (add encryption if needed)
-4. **User consent:** Get user consent before uploading documents
+1. **No persistent storage:** Images are processed and discarded after extraction
+2. **Secure logs:** Only extraction results and metadata are logged
+3. **Access control:** All endpoints require JWT authentication
+4. **User consent:** Get user consent before uploading sensitive documents
 
 ---
 
@@ -654,22 +631,12 @@ if not is_valid:
 
 ---
 
-### Q11: Can I customize the extraction fields?
+### Q11: Can I request custom extraction fields?
 
 **Answer:**
-- **Current system:** Uses predefined prompts in [src/extractor.py](src/extractor.py)
-- **To add custom fields:**
-  1. Modify the Gemini prompt in extractor.py
-  2. Add your custom fields to the prompt
-  3. Restart the service: `sudo systemctl restart idagent`
-
-**Example - Add "Mother's Name" field:**
-```python
-# In src/extractor.py, line 282, modify prompt:
-prompt = """
-Required fields: "الرقم الوطني", "الإسم", "اسم الأم", ...
-"""
-```
+- Current system extracts standard document fields
+- To request additional fields or customization, contact support
+- Custom field extraction may require configuration changes
 
 ---
 
@@ -679,19 +646,13 @@ Required fields: "الرقم الوطني", "الإسم", "اسم الأم", ...
 - **Average response time:** 3-8 seconds per document
 - **Factors affecting speed:**
   - Image size (larger = slower)
-  - Number of workers (currently: 2)
-  - AI model processing time (Gemini API)
+  - Document quality
   - Network latency
 
 **For real-time KYC:**
 - ✅ **Acceptable:** For web applications (user waits 5-10 seconds)
 - ⚠️ **Consider:** For mobile apps (show loading indicator)
 - ❌ **Not suitable:** For instant verification (< 1 second required)
-
-**Optimization tips:**
-- Increase Gunicorn workers (if you have more RAM)
-- Use async processing with webhooks
-- Implement caching for repeated documents
 
 ---
 
@@ -735,12 +696,11 @@ Required fields: "الرقم الوطني", "الإسم", "اسم الأم", ...
   - May work with similar document formats
   - Accuracy varies by document type
   - Arabic/English text works best
-  - Other languages need prompt modification
+  - Other languages may have lower accuracy
 
 **To add support for other countries:**
-1. Modify prompts in [src/extractor.py](src/extractor.py)
-2. Add country-specific extractors
-3. Train with country-specific documents
+- Contact support for country-specific implementations
+- Custom training may be required for optimal accuracy
 
 ---
 
@@ -806,10 +766,9 @@ Use this to check if the system is running properly.
 
 ## Contact & Support
 
-- Server URL: `https://5.22.215.77:5001`
-- All API endpoints require JWT authentication
-- All uploaded documents are automatically saved for training purposes
-- Results are stored in `output/results/` directory
+- **Server URL:** `https://5.22.215.77:5001`
+- All API endpoints require JWT authentication and API key
+- For support or questions, contact your system administrator
 
 ---
 
