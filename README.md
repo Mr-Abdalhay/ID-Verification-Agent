@@ -85,11 +85,11 @@ For every request after login, you need to include:
 **Important:** ID cards have information on BOTH sides. You can:
 - Upload only the **front** image
 - Upload only the **back** image
-- Upload **BOTH** front AND back images in the same request (recommended for complete data)
+- Upload **BOTH** front AND back images in the same request (not recommended poor accuracy)
 
 ---
 
-#### Option A: Upload BOTH Front and Back (Recommended)
+#### Option A: Upload BOTH Front and Back 
 
 **How to send:**
 Use form-data with two files:
